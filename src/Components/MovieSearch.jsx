@@ -15,7 +15,7 @@ function MovieSearch() {
     if (!movie.trim()) return;
     setIsLoading(true);
     try {
-        let apiUrl = `https://www.omdbapi.com/?s=${movie}&page=${currentPage}&apikey=${import.meta.env.VITE_APIMOVIE}`;     
+        let apiUrl = `https://www.omdbapi.com/?s=${movie}&page=${currentPage}&apikey=92d54579`;     
         let response = await axios.get(apiUrl);
       if (response.data && response.data.Search) {
         setMovieData(response.data.Search);
