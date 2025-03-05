@@ -3,6 +3,7 @@ import axios from "axios";
 
 function MovieSearch() {
   const [movie, setMovie] = useState("");
+  const [dateI,setDate] = useState(2025)
   const [movieData, setMovieData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -15,7 +16,7 @@ function MovieSearch() {
     if (!movie.trim()) return;
     setIsLoading(true);
     try {
-        let apiUrl = `https://www.omdbapi.com/?s=${movie}&page=${currentPage}&apikey=92d54579`;     
+        let apiUrl = `https://www.omdbapi.com/?s=${movie}&y=${dateI}&page=${currentPage}&apikey=92d54579`;     
         let response = await axios.get(apiUrl);
       if (response.data && response.data.Search) {
         setMovieData(response.data.Search);
@@ -34,6 +35,7 @@ function MovieSearch() {
     setCurrentPage(1);
     fetchData();
   };
+  const handleDateChange =(e)=>{ setDate(e.target.value)}
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
   const addToFavorites = (film) => {
     if (!favorites.some((fav) => fav.imdbID === film.imdbID)) {
@@ -84,6 +86,21 @@ function MovieSearch() {
                   : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               }`}
             />
+            <input
+             value={dateI}
+             onChange={handleDateChange}
+             type="number" 
+             min="1900"
+             max="2099"
+             step="1" 
+             placeholder="Enter year..."
+             className={`flex-1 p-3 border-2 rounded-lg focus:outline-none transition duration-300 ${
+                isDarkMode
+                  ? "bg-gray-700 border-gray-600 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-300"
+                  : "border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              }`}
+             />
+            
             <button
               onClick={handleMovie}
               className={`p-3 rounded-lg transition duration-300 transform hover:scale-105 active:scale-95 ${
@@ -115,9 +132,11 @@ function MovieSearch() {
                     className="w-full h-72 object-cover"
                   />
                   <div className="p-6">
+                  <p>{film.Year}</p>
                     <h1 className={`text-xl font-bold mb-3 ${isDarkMode ? "text-white" : "text-gray-800"}`}>
                       {film.Title}
                     </h1>
+                    
                     <button
                       onClick={() => removeFromFavorites(film)}
                       className={`p-2 w-full rounded-lg ${
@@ -176,6 +195,7 @@ function MovieSearch() {
                     <h1 className={`text-xl font-bold mb-3 ${isDarkMode ? "text-white" : "text-gray-800"}`}>
                       {film.Title}
                     </h1>
+                    <p className="text-center m-1">{film.Year}</p>
                     <button
                       onClick={() => addToFavorites(film)}
                       className={`p-2 w-full rounded-lg ${
