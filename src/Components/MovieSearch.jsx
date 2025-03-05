@@ -3,7 +3,7 @@ import axios from "axios";
 
 function MovieSearch() {
   const [movie, setMovie] = useState("");
-  const [dateI,setDate] = useState(2025)
+  const [dateI,setDate] = useState("")
   const [movieData, setMovieData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -12,7 +12,7 @@ function MovieSearch() {
   const moviesPerPage = 8;
 
   const fetchData = async () => {
-    debugger
+    
     if (!movie.trim()) return;
     setIsLoading(true);
     try {
@@ -195,7 +195,10 @@ function MovieSearch() {
                     <h1 className={`text-xl font-bold mb-3 ${isDarkMode ? "text-white" : "text-gray-800"}`}>
                       {film.Title}
                     </h1>
-                    <p className="text-center m-1">{film.Year}</p>
+                    <p className="text-center m-1 font-light">{film.Year}</p>
+                    <a className="w-[100%] text-center block font-bold mt-1.5 mb-1.5" href={`https://www.youtube.com/results?search_query=${film.Title}+trailer`}>
+                     Watch Trailer
+                    </a>
                     <button
                       onClick={() => addToFavorites(film)}
                       className={`p-2 w-full rounded-lg ${
